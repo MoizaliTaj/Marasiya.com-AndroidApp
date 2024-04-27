@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <RelativeLayout
         android:layout_centerInParent="true"
         android:background="#fff"
@@ -18,5 +17,4 @@
             android:layout_width="250dp"
             android:layout_height="250dp"/>
     </RelativeLayout>
-
 </RelativeLayout>

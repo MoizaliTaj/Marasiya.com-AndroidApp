@@ -5,28 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
-
-
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/banner_AdContainer"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_above="@+id/banner_AdContainer"
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-
 </RelativeLayout>

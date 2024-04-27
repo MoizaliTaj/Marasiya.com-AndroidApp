@@ -1,9 +1,7 @@
 package com.marasiya.dbohra;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -35,19 +33,12 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-
-import java.net.NetworkInterface;
-import java.net.URL;
 import java.util.Objects;
-
-
 public class HomeActivity extends AppCompatActivity {
-
     SwipeRefreshLayout swipeRefreshLayout;
     WebView webView;
     AdView adView;
     LinearLayout bannerAdContainer;
-
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
@@ -58,10 +49,8 @@ public class HomeActivity extends AppCompatActivity {
             exitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             exitDialog.setCancelable(false);
             exitDialog.setContentView(R.layout.exit_dialogue_layout);
-
             Button yesBtn = exitDialog.findViewById(R.id.yesBtn);
             Button noBtn = exitDialog.findViewById(R.id.noBtn);
-
             yesBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,40 +63,22 @@ public class HomeActivity extends AppCompatActivity {
                     exitDialog.dismiss();
                 }
             });
-
             exitDialog.show();
-
         }
     }
-
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        bannerAdContainer = findViewById(R.id.banner_AdContainer);
-
-        MobileAds.initialize(HomeActivity.this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                adView = new AdView(HomeActivity.this );
-                adView.setAdSize(AdSize.BANNER);
-                adView.setAdUnitId("ca-app-pub-6804075268466793/6020993118");
-                adView.loadAd(new AdRequest.Builder().build());
-                bannerAdContainer.addView(adView);
-            }
-        });
-
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         webView = findViewById(R.id.webView);
-
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setAppCacheEnabled(true);
+//        webSettings.setAppCacheEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setSupportZoom(true);
         webSettings.setLoadsImagesAutomatically(true);
-
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -129,7 +100,6 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -146,8 +116,6 @@ public class HomeActivity extends AppCompatActivity {
                 webView.reload();
             }
         });
-
-
         if (isInternetConnected(HomeActivity.this)){
             webView.loadUrl("http://www.marasiya.com/");
         }else{
@@ -158,7 +126,6 @@ public class HomeActivity extends AppCompatActivity {
             internetErrorDialog.setContentView(R.layout.internet_error_message_layout);
             internetErrorDialog.show();
         }
-
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
@@ -175,13 +142,9 @@ public class HomeActivity extends AppCompatActivity {
                 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 downloadManager.enqueue(request);
                 Toast.makeText(HomeActivity.this, "Downloading File...", Toast.LENGTH_SHORT).show();
-
             }
         });
-
-
     }
-
     public static boolean isInternetConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager.getNetworkInfo(connectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED || connectivityManager.getNetworkInfo(connectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
